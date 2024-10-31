@@ -94,7 +94,7 @@ int countNodesAtLevel(TreeNode *root, int N)
     return count; // и возвращаем количество узлов на N-ом уровне
 }
  
-int main()
+int main(void)
 {
     TreeNode *root = createTreeNode(1);
     root->left = createTreeNode(2);
