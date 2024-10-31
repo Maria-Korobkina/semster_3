@@ -1,4 +1,4 @@
-#include "n6_43_h"
+#include "n6_43.h"
 
 void push_stack(stack *st, void *value)
 {
