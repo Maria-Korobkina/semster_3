@@ -26,75 +26,66 @@ TreeNode* createTreeNode(int value)
     return newNode;
 }
  
-// Функция для создания новой очереди
 queue createQueue() {
     return NULL;
 }
  
-// Функция добавления узла к очереди
 void enqueue(queue *q, TreeNode *node)
 {
     queueNode *newNode = (queueNode *)malloc(sizeof(queueNode));
     if (newNode == NULL) return;
     newNode->data = (void *)node;
     newNode->next = NULL;
-    if (*q == NULL) *q = newNode; // ксли очередь пустая, добавляем новый узел
+    if (*q == NULL) *q = newNode;
     else 
     {
         queueNode *temp = *q;
-        while (temp->next != NULL) temp = temp->next; // аайти последний узел
-        temp->next = newNode; // вобавляем новый узел в конец очереди
+        while (temp->next != NULL) temp = temp->next;
+        temp->next = newNode;
     }
 }
  
-// функция удаления узла из очереди
 TreeNode* dequeue(queue *q)
 {
-    if (*q == NULL) return NULL; // если очередь пустая, возвращаем NULL
-    queueNode *temp = *q; // сохраняем первый узел очереди
-    TreeNode *treeNode = (TreeNode *)temp->data; // илекаем данные
-    *q = (*q)->next; // свигаем указатель очереди
-    free(temp); // сивобождаем память
-    return treeNode; // впзвращаем данные
+    if (*q == NULL) return NULL;
+    queueNode *temp = *q;
+    TreeNode *treeNode = (TreeNode *)temp->data;
+    *q = (*q)->next;
+    free(temp);
+    return treeNode;
 }
  
-// функция для подсчета узлов на N-ом уровне
 int countNodesAtLevel(TreeNode *root, int N)
 {
     if (root == NULL) return 0;
     queue q = NULL;
-    enqueue(&q, root); // Добавляем корень в очередь
+    enqueue(&q, root);
     int currentLevel = 0;
     int count = 0;
     while (q != NULL) 
     {
         int nodesAtCurrentLevel = 0;
         int nodesInQueue = 0;
-        // определяем количество узлов на текущем уровне, сначала считываем количество узлов в очереди для текущего уровня
         queueNode *temp = q;
         while (temp != NULL)
         {
             nodesInQueue++;
-            temp = temp->next; // Считываем количество узлов
+            temp = temp->next;
         }
-        // Обрабатываем все узлы на текущем уровне
         for (int i = 0; i < nodesInQueue; i++) 
         {
-            TreeNode *currentNode = dequeue(&q); // извлекаем узел из очереди
-            // ксли текущий уровень равен N, то увеличиваем счетчик
+            TreeNode *currentNode = dequeue(&q); 
             if (currentLevel == N) count++; 
-            // лобавляем дочерние узлы в очередь
             if (currentNode->left != NULL) enqueue(&q, currentNode->left);
             if (currentNode->right != NULL) enqueue(&q, currentNode->right);
         }
-        // Если мы уже достигли нужного уровня, выходим из цикла
         if (currentLevel == N) break;
-        currentLevel++; // увеличиваем уровень
+        currentLevel++;
     }
-    return count; // и возвращаем количество узлов на N-ом уровне
+    return count;
 }
  
-int main(void)
+int main()
 {
     TreeNode *root = createTreeNode(1);
     root->left = createTreeNode(2);
